@@ -46488,7 +46488,9 @@ function getPackageMap(workingDirectory = "./") {
 function getChangedPackages(from = "HEAD^1", to = "", options = {}) {
     var _a;
     const { pipeline = "build", workspace = "", workingDirectory = "./", } = options;
-    const json = (0, child_process_1.execSync)(`npx turbo run ${pipeline} --filter="${workspace}...[${from}...${to}]" --dry-run=json`, {
+    const json = (0, child_process_1.execSync)(workspace === ""
+        ? `npx turbo run ${pipeline} --filter="[${from}...${to}]" --dry-run=json`
+        : `npx turbo run ${pipeline} --filter="${workspace}...[${from}...${to}]" --dry-run=json`, {
         cwd: (0, path_1.join)(process.cwd(), workingDirectory),
         encoding: "utf-8",
     });
