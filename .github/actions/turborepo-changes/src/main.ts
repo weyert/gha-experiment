@@ -41,7 +41,7 @@ function getChangedPackages(
 
   const json = execSync(
     workspace === ""
-      ? `npx turbo run ${pipeline} --filter="[${from}...${to}]" --dry-run=json`
+      ? `npx turbo run ${pipeline} --dry-run=json`
       : `npx turbo run ${pipeline} --filter="${workspace}...[${from}...${to}]" --dry-run=json`,
     {
       cwd: join(process.cwd(), workingDirectory),
