@@ -37445,7 +37445,7 @@ async function run() {
         : composeV2.upAll(options);
 
     try {
-      const result = await promise();
+      const result = await promise;
       core.startGroup("Running post-script step");
       await exec.exec("../../post.sh", [], {
         cwd: __dirname,
