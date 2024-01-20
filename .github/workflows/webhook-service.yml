@@ -1,8 +1,11 @@
 name: Webhook Service
 
 on:
+  #
   workflow_dispatch:
   workflow_call:
+  #
+  pull_request:
 
 defaults:
   run:
@@ -17,3 +20,11 @@ jobs:
       service_port: 30001
       dockerfile: Dockerfile
     secrets: inherit
+
+  release:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkpoint
+        run: |
+          echo "Checkpoint for the release job"

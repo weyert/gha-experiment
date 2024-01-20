@@ -65,6 +65,12 @@ jobs:
         run: |
           pnpm install
 
+      #
+      - name: Collect build information
+        id: buildinfo
+        uses: ./.github/actions/prepare
+
+      #
       - name: Create docker image for '${{ inputs.workspace_name }}'
         id: docker-create
         uses: ./.github/actions/create-docker-image

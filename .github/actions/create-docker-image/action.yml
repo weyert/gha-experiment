@@ -81,6 +81,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Received action input
+      env:
+        ACTION_CONTEXT: ${{ toJson(inputs) }}
+      run: |
+        echo "$ACTION_CONTEXT"
+
     #
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
