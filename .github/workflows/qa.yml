@@ -69,8 +69,8 @@ jobs:
           CAROOT=./ssl ./tools/mkcert -install
           echo "::endgroup::"
           echo "::group::Generated certificates"
-          ls -la
-          tree
+          ls -la ssl
+          update-ca-certificates --fresh
           echo "::endgroup::"
 
       - name: Install Playwright dependencies
