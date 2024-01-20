@@ -77,6 +77,10 @@ jobs:
           node ./scripts/create-emulator-topics.mjs
           echo "Creating topic subscriptions for Cloud PubSub emulator..."
           node ./scripts/create-emulator-subscriptions.mjs
+        env:
+          PUBSUB_EMULATOR_HOST: localhost:8085
+          PUBSUB_PROJECT_ID: dev01-242909
+          PROJECT_ID: dev01-242909
 
       - name: Applying database migrations
         run: |
