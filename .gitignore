@@ -17,6 +17,9 @@ lerna-debug.log*
 .turbo/
 !.turbo/config.json
 
+# Avoid committing developer certificates
+ssl/
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -88,6 +91,9 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+.github-secrets.yml
+.github-variables.yml
+
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -138,3 +144,4 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+.github/fixtures

@@ -1,0 +1,6 @@
+-P ubuntu-latest=ghcr.io/catthehacker/ubuntu:js-latest
+--container-architecture linux/amd64
+--artifact-server-path ~/artifacts
+--secret-file .github-secrets.yml
+--var-file .github-variables.yml
+--insecure-secrets
