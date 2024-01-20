@@ -64,11 +64,9 @@ async function run() {
       core.endGroup();
 
       // All done!
-      core.startGroup("Running entrypoint-script step");
       await exec.exec(`${loc}/entrypoint.sh`, [], {
         cwd: pwd,
       });
-      core.endGroup();
     } catch (err) {
       console.log(`err:`, err);
       core.setFailed(`compose up failed ${JSON.stringify(err)}`);
