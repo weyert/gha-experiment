@@ -70,3 +70,9 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(steps.docker-create) }}
         run: |
           echo "$GITHUB_CONTEXT"
+
+      - id: deploy_image
+        name: Deploy docker image
+        shell: sh
+        run: |
+          docker push ${{ steps.docker-create.outputs.image_tag }}

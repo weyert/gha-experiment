@@ -176,8 +176,3 @@ runs:
         tags: |
           registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
         push: true
-
-    - id: deploy_image
-      name: Deploy docker image
-      shell: sh
-      run: echo "Hello"
