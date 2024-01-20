@@ -14,34 +14,6 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
 
-    #
-    services:
-      # Redis
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: >-
-          --name redis
-      # Cloud PubSub emulator
-      pubsub:
-        image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
-        ports:
-          - "8085:8085"
-        options: >-
-          --name pubsub
-      # Postgres
-      postgres:
-        image: postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --name postgres
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: "actions/checkout@v4"
         with:
@@ -93,17 +65,5 @@ jobs:
           sudo update-ca-certificates --fresh
           echo "::endgroup::"
 
-      - name: Install Playwright dependencies
-        run: |
-          pnpm dlx playwright install --with-deps
-
-      - name: Run Tests
-        run: |
-          pnpm --filter="system-tests" run test
-
-      - uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: playwright-report
-          path: integration-tests/system-tests/reporters/
-          retention-days: 30
+      - name: Create development environment
+        uses: ./.github/actions/create-development-env

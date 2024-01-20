@@ -1,0 +1,68 @@
+version: '3'
+services:
+  # PubSub emulator
+  pubsub-emulator:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    container_name: pubsub
+    volumes:
+      -  $PWD/scripts/localstack/pubsub-data:/mnt/data/pubsub
+    networks:
+      - main
+    ports:
+      - '8085:8085'
+    command: /bin/bash -c
+      "gcloud config set project dev01-242909 && gcloud beta emulators pubsub start --format=json --verbosity=debug --project dev01-242909 --data-dir=/mnt/data/pubsub --host-port=0.0.0.0:8085"
+
+  # Redis
+  redis:
+    image: redis:7.0.8-alpine
+    command: redis-server --save 20 1 --loglevel warning
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - $PWD/scripts/localstack/redis-data:/data
+    environment:
+      REDIS_REPLICATION_MODE: master
+      ALLOW_EMPTY_PASSWORD: 'true'
+    networks:
+      - main
+
+  # Fake Cloud Storage server
+  google-cloud-storage:
+    image: fsouza/fake-gcs-server
+    # Enable http by adding: --insecure
+    command: ["-scheme", "http", "-port", "4443", "-external-url", "http://localhost:4443", "-backend", "filesystem", "-public-host", "localhost:4443"]
+    ports:
+      - '4443:4443'
+    networks:
+      - main
+    volumes:
+      # This creates an empty bucket
+      - $PWD/scripts/localstack/cloudstorage-data:/data/cloud-storage
+      - $PWD/scripts/localstack/cloudstorage-data:/data/uploads
+
+  # PostgresSQL
+  postgres:
+    build:
+      context: $PWD/scripts/localstack/db
+      dockerfile: Dockerfile
+    restart: always
+    command: postgres -c shared_preload_libraries=pgaudit,pglogical
+    ports:
+      - '5442:5432'
+    volumes:
+      - $PWD/scripts/localstack/db/initdb/my-postgres.conf:/etc/postgresql/postgresql.conf
+      - $PWD/scripts/localstack/backups:/tapico/backups
+      - $PWD/scripts/localstack/db/init-backup-db.sh:/tapico/init-backup-db.sh
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: cloudsqladmin
+      POSTGRES_DB: postgres
+    networks:
+      - main
+
+# Allow accessing the Docker host machine
+networks:
+  main:
+    driver: bridge
