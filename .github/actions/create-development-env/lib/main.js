@@ -34,7 +34,7 @@ async function run() {
     //
     console.log("Running pre-script");
     core.startGroup("Running pre-script step");
-    await exec.exec("/bin/sh pre.sh", [], {
+    await exec.exec("pre.sh", [], {
       cwd: __dirname,
     });
     core.endGroup();
@@ -49,7 +49,7 @@ async function run() {
       const result = await promise();
       console.log("compose started");
       core.startGroup("Running post-script step");
-      await exec.exec("/bin/sh post.sh", [], {
+      await exec.exec("post.sh", [], {
         cwd: __dirname,
       });
       core.endGroup();
