@@ -40,7 +40,7 @@ function getChangedPackages(
   } = options;
 
   const json = execSync(
-    `pnpm dlx turbo run ${pipeline} --filter="${workspace}...[${from}...${to}]" --dry-run=json`,
+    `npx turbo run ${pipeline} --filter="${workspace}...[${from}...${to}]" --dry-run=json`,
     {
       cwd: join(process.cwd(), workingDirectory),
       encoding: "utf-8",
