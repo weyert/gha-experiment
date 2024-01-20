@@ -19,17 +19,53 @@ jobs:
       package_names: ${{ steps.changes.outputs.package_names }}
 
     steps:
+      - name: Dump GitHub context
+        shell: bash
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Collect targeted branch information
+        id: prepare
+        uses: ./.github/actions/prepare
+
+      - name: Dump git change target context
+        shell: bash
+        env:
+          TURBO_CONTEXT: ${{ toJson(steps.prepare) }}
+        run: |
+          echo "$TURBO_CONTEXT"
 
       - name: Collect Turborepo Changes
         id: changes
         uses: ./.github/actions/turborepo-changes
         with:
-          from: HEAD^1
+          from: origin/main
 
+      - name: Dump Turbo changes context
+        shell: bash
+        env:
+          TURBO_CONTEXT: ${{ toJson(steps.changes) }}
+        run: |
+          echo "$TURBO_CONTEXT"
+
+  context:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+
+    steps:
+      - name: Dump Job context
+        shell: bash
+        env:
+          JOB_CONTEXT: ${{ toJson(needs.prepare) }}
+        run: |
+          echo "$JOB_CONTEXT"
   #
   webhooks-service:
     needs: [prepare]

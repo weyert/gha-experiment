@@ -2,7 +2,7 @@ import Fastify from "fastify";
 import { MOCK_EVENT_TYPES } from "./mocks.js";
 
 const fastify = Fastify({
-  logger: true,
+  logger: process.env.LOG_LEVEL === "debug",
 });
 
 fastify.get(
