@@ -33,8 +33,8 @@ async function run() {
 
     //
     console.log("Running pre-script");
-    core.startGroup("Running pre-script step");
-    await exec.exec("pre.sh", [], {
+    core.startGroup("Running pre-script step", __dirname);
+    await exec.exec("./pre.sh", [], {
       cwd: __dirname,
     });
     core.endGroup();
