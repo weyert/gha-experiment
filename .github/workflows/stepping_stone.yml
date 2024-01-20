@@ -17,20 +17,24 @@ defaults:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    outputs:
+      packages: ${{ steps.changes.outputs.packages }}
+      package_names: ${{ steps.changes.outputs.package_names }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # Necessary for comparing changes to past commits
+          fetch-depth: 0
 
+      #
       - name: Collect Turborepo Changes
         id: changes
-        env:
-          RUNNER_DEBUG: 1
         uses: ./.github/actions/turborepo-changes
         with:
-          from: HEAD^1 # Changes since previous commit (this is the default)
+          from: HEAD^1
 
+      #
       - name: Dump context
         env:
           STEP_CONTEXT: ${{ toJson(steps.changes) }}
@@ -41,12 +45,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: [prepare]
     steps:
-      - name: Trigger 1
+      - name: "@weyert/environment"
+        if: contains(fromJson(needs.prepare.outputs.package_names), '@weyert/environment')
         run: |
           echo "Hello this is the preflight task"
-      - name: Trigger 2
+
+      - name: Next App
+        if: contains(fromJson(needs.prepare.outputs.package_names), 'next-app')
         run: |
           echo "Hello this is the preflight task"
-      - name: Trigger 3
+
+      - name: Payment Service
+        if: contains(fromJson(needs.prepare.outputs.package_names), 'payment-service')
+        run: |
+          echo "Hello this is the preflight task"
+
+      - name: Webhooks Service
+        if: contains(fromJson(needs.prepare.outputs.package_names), 'webhooks-service')
         run: |
           echo "Hello this is the preflight task"
