@@ -126,6 +126,15 @@ jobs:
           pnpm install
 
       #
+      - name: Resolve build information for building docker image
+        id: turbo-info
+        uses: ./.github/actions/turborepo-changes
+        with:
+          # workspace: ${{ inputs.workspace_name }}
+          pipeline: build
+          from: origin/main
+
+      #
       - name: Collect build information
         id: buildinfo
         uses: ./.github/actions/prepare
