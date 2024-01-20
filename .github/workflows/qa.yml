@@ -72,8 +72,6 @@ jobs:
           pnpm dlx playwright install --with-deps
 
       - name: Run Tests
-        env:
-          NODE_EXTRA_CA_CERTS: "../../ssl/rootCA.pem"
         run: |
           pnpm --filter="system-tests" run test
 
