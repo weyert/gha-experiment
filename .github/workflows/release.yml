@@ -23,31 +23,22 @@ on:
         type: string
 
 jobs:
-  changed_files:
-    name: Verify if '${{ inputs.workspace_name }}' needs to be build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
   build:
     name: Building docker image
     timeout-minutes: 30
     runs-on: ubuntu-latest
-    needs: changed_files
 
     steps:
-      # Check out the repository code
       - name: Check out code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 2
+          fetch-depth: 0
+
+      - name: Create docker image for '${{ inputs.workspace_name }}'
+        id: docker-create
+        uses: ./.github/actions/create-docker-image
+        with:
+          workspace_name: ${{ inputs.workspace_name }}
+          workspace_directory: ${{ inputs.workspace_directory }}
+          port: ${{ inputs.service_port }}
+          dockerfile: ${{ inputs.dockerfile }}

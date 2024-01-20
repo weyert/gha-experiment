@@ -27,25 +27,27 @@ jobs:
         with:
           fetch-depth: 0
 
-      #
       - name: Collect Turborepo Changes
         id: changes
         uses: ./.github/actions/turborepo-changes
         with:
           from: HEAD^1
 
+  #
   webhooks-service:
     needs: [prepare]
     if: contains(fromJson(needs.prepare.outputs.package_names), 'webhooks-service')
     uses: ./.github/workflows/webhook-service.yml
     secrets: inherit
 
+  #
   payment-service:
     needs: [prepare]
     if: contains(fromJson(needs.prepare.outputs.package_names), 'payment-service')
     uses: ./.github/workflows/webhook-service.yml
     secrets: inherit
 
+  #
   next-app:
     needs: [prepare]
     if: contains(fromJson(needs.prepare.outputs.package_names), 'next-app')

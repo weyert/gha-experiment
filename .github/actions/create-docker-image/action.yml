@@ -1,0 +1,149 @@
+name: Create docker image of workspace
+description: Create the docker image of the workspace
+
+inputs:
+  port:
+    required: true
+    description: |-
+      Port of the service in Docker image
+  registry:
+    required: false
+    default: ${{ vars.GITLAB_REGISTRY }}/tapico/sandboxes/monorepo
+    description: |-
+      The docker registry to push the generated docker image
+  workspace_name:
+    required: true
+    description: |-
+      Name of project workspace
+  workspace_directory:
+    required: true
+    description: |-
+      Location of project workspace
+  dockerfile:
+    required: false
+    default: Dockerfile
+    description: |-
+      The name of the Dockerfile to build the docker image
+
+outputs:
+  image_id:
+    description: |-
+      The identifier of the generated docker image
+    value: ${{ steps.image_metadata.outputs.image_id }}
+  image_digest:
+    description: |-
+      The image digest of the generated docker image
+    value: ${{ steps.image_metadata.outputs.image_digest }}
+  image_tag:
+    description: |-
+      The image tag of the generated docker image
+    value: ${{ steps.image_metadata.outputs.image_tag }}
+  image_name:
+    description: |-
+      The image name of the generated docker image
+    value: ${{ steps.image_metadata.outputs.image_name }}
+
+runs:
+  using: "composite"
+  steps:
+    #
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    #
+    - name: Login to Gitlab Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ vars.GITLAB_REGISTRY }}
+        username: ${{ secrets.GITLAB_USERNAME }}
+        password: ${{ secrets.GITLAB_PASSWORD }}
+
+    #
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # Generate the app and base context that can be used to generate docker contexts,
+    # and consists of:
+    #
+    # - app: the pruned workspace by Turborepo
+    # - base: includes the shell scripts, .turbo, .dockerignore, and other
+    #         useful files that can be used in docker image
+    #
+    - id: create_docker_image
+      name: Prepare docker context
+      shell: bash
+      run: |
+        mkdir -p .local
+        mkdir -p .local/base-context
+        mkdir -p .local/base-context/scripts
+        mkdir -p .local/base-context/.turbo
+        pnpm exec turbo prune --docker --out-dir .local/${{ inputs.workspace_name }} ${{ inputs.workspace_name }}
+        cp .npmrc .local/base-context
+        cp .dockerignore .local/base-context
+        cp .pnpmfile.cjs .local/base-context
+        mkdir -p .local/base-context/patches
+        cp -r patches/ .local/base-context/patches/
+        cp .turbo/config.json .local/base-context/.turbo/config.json
+        cp .dockerignore .local/${{ inputs.workspace_name }}
+        cp scripts/utils.sh .local/base-context/scripts
+        cp scripts/prune-dev-artifacts.mjs .local/base-context/scripts
+        LAST_PWD=$PWD
+        cd .local/${{ inputs.workspace_name }}
+        find . -name node_modules -prune -execdir rm -rf {} +
+        cd $LAST_PWD
+
+    # Attempts to inject the .turbo-cache directory into the docker image to
+    # give turbo executable in the docker image access to the local cache together
+    # with the remote cache
+    - name: Inject '.turbo-cache' into docker
+      uses: reproducible-containers/buildkit-cache-dance@v2.1.3
+      with:
+        cache-source: .turbo-cache
+        cache-target: /app/.turbo-cache
+
+    # Determine the build information for the docker image, such as resolving
+    # the commit, branch and pipeline build variables that will be passed to
+    # the `docker build`-command
+    - name: Resolve build information for building docker image
+      id: build-info
+      uses: ./.github/actions/prepare
+
+    #
+    - id: build_docker_image
+      name: Build
+      uses: docker/build-push-action@v5
+      with:
+        file: ${{ inputs.workspace_directory }}/${{ inputs.dockerfile }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        context: .local/base-context
+        registry: ${{ vars.GITLAB_REGISTRY }}
+        build-args: |
+          NODE_VERSION=${{ vars.NODE_VERSION }}
+          PORT=${{ inputs.port }}
+          WORKSPACE_NAME=${{ inputs.workspace_name }}
+          WORKSPACE_DIRECTORY=${{ inputs.workspace_directory }}
+          TURBO_TEAM=${{ vars.TURBO_TEAM }}
+          BUILD_NUMBER=${{ env.LAST_COMMIT_SHA }}
+          BUILD_PIPELINE=${{ env.BUILD_PIPELINE }}
+          BUILD_BRANCH=${{ env.BUILD_BRANCH }}
+        build-contexts: |
+          common=.local/base-context
+          app=.local/${{ inputs.workspace_name }}
+        secrets: |
+          "gitlab_token=${{ vars.CI_JOB_TOKEN }}"
+          "github_token=${{ vars.GITHUB_TOKEN }}"
+          "turbo_token=${{ vars.GITHUB_TOKEN }}"
+        tags: |
+          ${{ vars.GITLAB_REGISTRY }}/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
+        load: true
+
+    # Expose the image_id, image tag so it can be leverage by jobs and/or actions
+    - name: Docker Image Created
+      id: image_metadata
+      shell: bash
+      run: |
+        echo "image_id=${{ steps.build_docker_image.outputs.imageid }}" >> $GITHUB_OUTPUT
+        echo "image_digest=${{ steps.build_docker_image.outputs.digest }}" >> $GITHUB_OUTPUT
+        echo "image_tag=${{ fromJson(steps.build_docker_image.outputs.metadata)['image.name'] }}" >> $GITHUB_OUTPUT
+        echo "image_name=${{ fromJson(steps.build_docker_image.outputs.metadata)['image.name'] }}" >> $GITHUB_OUTPUT
