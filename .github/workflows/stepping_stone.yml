@@ -34,33 +34,20 @@ jobs:
         with:
           from: HEAD^1
 
-      #
-      - name: Dump context
-        env:
-          STEP_CONTEXT: ${{ toJson(steps.changes) }}
-        run: |
-          echo "$STEP_CONTEXT"
-
-  trigger:
-    runs-on: ubuntu-latest
+  webhooks-service:
     needs: [prepare]
-    steps:
-      - name: "@weyert/environment"
-        if: contains(fromJson(needs.prepare.outputs.package_names), '@weyert/environment')
-        run: |
-          echo "Hello this is the preflight task"
+    if: contains(fromJson(needs.prepare.outputs.package_names), 'webhooks-service')
+    uses: ./.github/workflows/webhook-service.yml
+    secrets: inherit
 
-      - name: Next App
-        if: contains(fromJson(needs.prepare.outputs.package_names), 'next-app')
-        run: |
-          echo "Hello this is the preflight task"
+  payment-service:
+    needs: [prepare]
+    if: contains(fromJson(needs.prepare.outputs.package_names), 'payment-service')
+    uses: ./.github/workflows/webhook-service.yml
+    secrets: inherit
 
-      - name: Payment Service
-        if: contains(fromJson(needs.prepare.outputs.package_names), 'payment-service')
-        run: |
-          echo "Hello this is the preflight task"
-
-      - name: Webhooks Service
-        if: contains(fromJson(needs.prepare.outputs.package_names), 'webhooks-service')
-        run: |
-          echo "Hello this is the preflight task"
+  next-app:
+    needs: [prepare]
+    if: contains(fromJson(needs.prepare.outputs.package_names), 'next-app')
+    uses: ./.github/workflows/next-app.yml
+    secrets: inherit

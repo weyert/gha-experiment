@@ -1,0 +1,18 @@
+name: Next App
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/release.yml
+    with:
+      workspace_name: next-app
+      workspace_directory: services/next-app
+      service_port: 3000
+      dockerfile: Dockerfile
+    secrets: inherit
