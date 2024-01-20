@@ -23,7 +23,7 @@ fastify.get(
   }
 );
 
-const servicePort = 28888;
+const servicePort = parseInt(process.env.PORT, 10);
 fastify.listen({ port: servicePort }, function serverListen(err, address) {
   console.log(`Server address:`, address);
   if (err) {
