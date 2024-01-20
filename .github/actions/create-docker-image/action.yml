@@ -94,15 +94,15 @@ runs:
         mkdir -p .local/base-context/scripts
         mkdir -p .local/base-context/.turbo
         pnpm exec turbo prune --docker --out-dir .local/${{ inputs.workspace_name }} ${{ inputs.workspace_name }}
-        cp .npmrc .local/base-context
-        cp .dockerignore .local/base-context
-        cp .pnpmfile.cjs .local/base-context
+        cp .npmrc .local/base-context || echo ".npmrc does not exist"
+        cp .dockerignore .local/base-context || echo ".dockerignore does not exist"
+        cp .pnpmfile.cjs .local/base-context || echo ".pnpmfile.cjs does not exist"
         mkdir -p .local/base-context/patches
         cp -r patches/ .local/base-context/patches/
-        cp .turbo/config.json .local/base-context/.turbo/config.json
+        cp .turbo/config.json .local/base-context/.turbo/config.json || echo ".turbo/config.json does not exist"
         cp .dockerignore .local/${{ inputs.workspace_name }}
-        cp scripts/utils.sh .local/base-context/scripts
-        cp scripts/prune-dev-artifacts.mjs .local/base-context/scripts
+        cp scripts/utils.sh .local/base-context/scripts || echo "scripts/utils.sh does not exist"
+        cp scripts/prune-dev-artifacts.mjs .local/base-context/scripts || echo "scripts/prune-dev-artifacts.mjs does not exist"
         LAST_PWD=$PWD
         cd .local/${{ inputs.workspace_name }}
         find . -name node_modules -prune -execdir rm -rf {} +
