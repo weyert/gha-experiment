@@ -36,4 +36,6 @@ jobs:
           images: name/app
 
       - name: HelloWorld
-        run: echo "Hello World"
+        env:
+          METADATA: ${{ toJSON(github) }}
+        run: echo "Hello World=${METADATA}"
