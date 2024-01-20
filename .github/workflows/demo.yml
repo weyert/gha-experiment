@@ -75,4 +75,5 @@ jobs:
         name: Deploy docker image
         shell: sh
         run: |
+          docker tag ${{ steps.docker-create.outputs.image_tag }} ${{ steps.docker-create.outputs.image_tag }}
           docker push ${{ steps.docker-create.outputs.image_tag }}
