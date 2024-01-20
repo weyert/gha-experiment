@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "turbo run test --cache-dir=.turbo-cache",
+    "build": "turbo run build --cache-dir=.turbo-cache",
     "dev": "turbo run dev --cache-dir=.turbo-cache",
-    "test": "turbo run build --cache-dir=.turbo-cache --filter=!system-tests"
+    "lint": "turbo lint lint --cache-dir=.turbo-cache",
+    "test": "turbo run test --cache-dir=.turbo-cache --filter=!system-tests"
   },
   "keywords": [],
   "author": "",
