@@ -2,9 +2,6 @@ name: Stepping Stone
 
 on:
   workflow_call:
-  push:
-    branches:
-      - main
   workflow_run:
     workflows: ["Quality Assurance"]
     types:
@@ -38,6 +35,8 @@ jobs:
     needs: [prepare]
     if: contains(fromJson(needs.prepare.outputs.package_names), 'webhooks-service')
     uses: ./.github/workflows/webhook-service.yml
+    with:
+      GITLAB_REGISTRY: ${{ vars.GITLAB_REGISTRY }}
     secrets: inherit
 
   #

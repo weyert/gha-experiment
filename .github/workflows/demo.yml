@@ -1,0 +1,29 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  test:
+    name: System Tests
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 0
+
+      - name: Create docker image for 'services/payment-service'
+        id: docker-create
+        uses: ./.github/actions/create-docker-image
+        with:
+          workspace_name: payment-service
+          workspace_directory: services/payment-service
+          port: 30001
+          dockerfile: Dockerfile
