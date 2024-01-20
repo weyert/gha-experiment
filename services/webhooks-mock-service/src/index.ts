@@ -1,4 +1,3 @@
-import fs from "node:fs";
 import Fastify from "fastify";
 import { MOCK_EVENT_TYPES } from "./mocks.js";
 
@@ -25,7 +24,8 @@ fastify.get(
 );
 
 const servicePort = 28888;
-fastify.listen({ port: servicePort }, function serverListen(err, _address) {
+fastify.listen({ port: servicePort }, function serverListen(err, address) {
+  console.log(`Server address:`, address);
   if (err) {
     fastify.log.error(err);
     process.exit(1);
