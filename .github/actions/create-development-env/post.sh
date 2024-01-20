@@ -1,5 +1,13 @@
 #!/bin/sh
 
+SCRIPT_RELATIVE_PATH="$(dirname "$0")"
+SCRIPT_PATH="$(realpath $SCRIPT_RELATIVE_PATH)"
+ROOT_DIR=$(dirname $SCRIPT_PATH)
+
+echo "SCRIPT_RELATIVE_PATH=${SCRIPT_RELATIVE_PATH}"
+echo "SCRIPT_PATH=${SCRIPT_PATH}"
+echo "ROOT_DIR=${ROOT_DIR}"
+
 # Load the backup file
 docker compose -f ./scripts/localstack/docker-compose.yml \
   exec postgres sh \
