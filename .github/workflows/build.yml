@@ -40,7 +40,7 @@ jobs:
           METADATA: ${{ toJSON(steps.meta.outputs) }}
         run: echo "Hello World=${METADATA}"
   deploy:
-    uses: ./.github/workflows/release.yml@main
+    uses: ./.github/workflows/release.yml
     with:
       workspace_name: service
       workspace_directory: services/webhooks
