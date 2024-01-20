@@ -37432,7 +37432,6 @@ async function run() {
     };
 
     //
-    console.log("Running pre-script", __dirname, __filename);
     core.startGroup("Running pre-script step");
     await exec.exec("../../pre.sh", [], {
       cwd: __dirname,
@@ -37447,9 +37446,18 @@ async function run() {
 
     try {
       const result = await promise();
-      console.log("compose started");
       core.startGroup("Running post-script step");
       await exec.exec("../../post.sh", [], {
+        cwd: __dirname,
+        env: {
+          DATABASE_SCRIPT: utils.parseFlags(core.getInput("database-script")),
+        },
+      });
+      core.endGroup();
+
+      // All done!
+      core.startGroup("Running entrypoint-script step");
+      await exec.exec("../../entrypoint.sh", [], {
         cwd: __dirname,
       });
       core.endGroup();
