@@ -52,7 +52,7 @@ jobs:
           touch ./scripts/localstack/backups/cloud-sql-backup.sql
           cat <<EOF > ./scripts/localstack/backups/cloud-sql-backup.sql
           CREATE TABLE new(id INT,name VARCHAR);
-          INSERT INTO new(id,name)values(1,"Travis");
+          INSERT INTO new(id,name)values(1,'Travis');
           EOF
           cat ./scripts/localstack/backups/cloud-sql-backup.sql
           ls -la ./scripts/localstack/backups
