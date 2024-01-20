@@ -64,6 +64,24 @@ jobs:
           cwd: "${{ github.workspace }}"
           down-flags: "--volumes"
 
+      - name: Create PubSub Topics
+        run: |
+          echo "Creating topics for Cloud PubSub emulator..."
+          node ${SCRIPT_PATH}/create-emulator-topics.mjs
+          echo "Creating topic subscriptions for Cloud PubSub emulator..."
+          node ${SCRIPT_PATH}/create-emulator-subscriptions.mjs
+
+      - name: Create PubSub Topics
+        run: |
+          echo "Creating topics for Cloud PubSub emulator..."
+          node ./scripts/create-emulator-topics.mjs
+          echo "Creating topic subscriptions for Cloud PubSub emulator..."
+          node ./scripts/create-emulator-subscriptions.mjs
+
+      - name: Applying database migrations
+        run: |
+          node ./scripts/run-migrations.mjs
+
       # - name: Generate developer certificates
       #   run: |
       #     echo "::group::Prepare"
