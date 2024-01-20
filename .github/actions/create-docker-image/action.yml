@@ -147,7 +147,7 @@ runs:
         secrets: |
           "gitlab_token=${{ input.CI_JOB_TOKEN }}"
           "github_token=${{ input.GITHUB_TOKEN }}"
-          "turbo_token=${{ input.GITHUB_TOKEN }}"
+          "turbo_token=${{ input.TURBO_TOKEN }}"
         tags: |
           registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
         load: true
