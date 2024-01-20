@@ -65,7 +65,7 @@ jobs:
           ./tools/mkcert --version
           echo "::endgroup::"
           echo "::group::Create certificates"
-          CAROOT=./ssl ./tools/mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost-cert.pem "*.example.com" example.test localhost 127.0.0.1 ::1
+          CAROOT=./ssl ./tools/mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost.pem "*.example.com" example.test localhost 127.0.0.1 ::1
           CAROOT=./ssl ./tools/mkcert -install
           echo "::endgroup::"
           echo "::group::Generated certificates"
