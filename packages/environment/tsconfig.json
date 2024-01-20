@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "esModuleInterop": false,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "sourceMap": true,
+    "declaration": true,
+    "target": "ES2022",
+    "lib": ["es2022", "esnext.asynciterable", "DOM"],
+    "outDir": "dist",
+    "noEmitOnError": true
+  },
+  "include": ["src/**/*"]
+}

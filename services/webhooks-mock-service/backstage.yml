@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: webhooks-service
+  description: Webhooks mock service
+spec:
+  type: service
+  lifecycle: experimental
+  owner: team-payments
+  system: payments

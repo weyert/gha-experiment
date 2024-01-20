@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "target": "ES2022",
+    "lib": ["es2022", "esnext.asynciterable", "DOM"],
+    "outDir": "dist",
+    "noEmitOnError": true
+  },
+  "include": ["src/**/*"]
+}

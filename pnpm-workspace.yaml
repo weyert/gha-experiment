@@ -1,0 +1,6 @@
+packages:
+  - "configs/*"
+  - "packages/*"
+  - "projects/*"
+  - "services/*"
+  - "integration-tests/*"

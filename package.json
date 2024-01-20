@@ -1,0 +1,47 @@
+{
+  "name": "gha-experiment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "turbo": "^1.11.3",
+    "@turbo/gen": "1.11.3",
+    "typescript": "^5.3.3",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^18.4.4",
+    "@manypkg/cli": "^0.21.2"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "darwin",
+        "linux",
+        "current"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
+    },
+    "patchedDependencies": {
+      "@swc-node/register@1.6.8": "patches/@swc-node__register@1.6.8.patch"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "msw@2>typescript": "^5",
+        "react": "18",
+        "react-dom": "18",
+        "@types/react": "18",
+        "reflect-metadata": "0.2.1"
+      }
+    }
+  }
+}
