@@ -1,0 +1,20 @@
+name: Stepping Stone
+
+on:
+  workflow_call:
+  workflow_run:
+    workflows: ["Quality Assurance"]
+    types:
+      - completed
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checker
+        run: |
+          echo "Hello this is the preflight task"
