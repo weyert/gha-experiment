@@ -37402,6 +37402,7 @@ const core = __nccwpck_require__(2186);
 const exec = __nccwpck_require__(1514);
 const compose = __nccwpck_require__(1022);
 const utils = __nccwpck_require__(8281);
+const path = __nccwpck_require__(1017);
 
 // Use docker compose v2
 // ref: https://github.com/PDMLab/docker-compose/tree/master#import-for-docker-compose-v2

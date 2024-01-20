@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const exec = require("@actions/exec");
 const compose = require("docker-compose");
 const utils = require("./utils");
+const path = require("path");
 
 // Use docker compose v2
 // ref: https://github.com/PDMLab/docker-compose/tree/master#import-for-docker-compose-v2
