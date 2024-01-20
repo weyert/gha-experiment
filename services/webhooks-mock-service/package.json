@@ -8,7 +8,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "NODE_OPTIONS='--inspect=127.0.0.1:10026 --loader @swc-node/register/esm' node src/index.ts",
+    "dev": "PORT=30001 NODE_OPTIONS='--inspect=127.0.0.1:10026 --loader @swc-node/register/esm' node src/index.ts",
     "lint": "eslint .",
     "test": "vitest",
     "start": "SERVICE_NAME='webhooks-service' node ./dist/index.js",
