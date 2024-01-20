@@ -21,7 +21,7 @@ defaults:
 
 jobs:
   build:
-    name: Build base ${{ matrix.TAG }}
+    name: Build base
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
@@ -39,3 +39,11 @@ jobs:
         env:
           METADATA: ${{ toJSON(steps.meta.outputs) }}
         run: echo "Hello World=${METADATA}"
+  deploy:
+    uses: ./.github/templates/release.yml
+    with:
+      workspace_name: service
+      workspace_directory: services/webhooks
+      service_port: 30001
+      dockerfile: Dockerfile
+    secrets: inherit
