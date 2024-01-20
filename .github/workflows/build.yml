@@ -1,0 +1,30 @@
+name: Build ubuntu images
+
+on:
+  schedule:
+    - cron: 0 12 */7 * *
+  push:
+    paths:
+      - ".github/workflows/build.yml"
+    branches:
+      - "main"
+  pull_request:
+    paths:
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+env:
+  SLUG: ${{ github.repository_owner }}/ubuntu
+  PUSH_GHCR: ${{ github.repository == (github.event.pull_request.head.repo.full_name || github.repository) && '1' || '' }}
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  build:
+    name: Build base ${{ matrix.TAG }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: HelloWorld
+        run: echo "Hello World"
