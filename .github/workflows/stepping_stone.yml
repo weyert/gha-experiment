@@ -2,6 +2,9 @@ name: Stepping Stone
 
 on:
   workflow_call:
+  push:
+    branches:
+      - main
   workflow_run:
     workflows: ["Quality Assurance"]
     types:
@@ -12,9 +15,30 @@ defaults:
     shell: sh
 
 jobs:
-  job1:
+  prepare:
     runs-on: ubuntu-latest
     steps:
-      - name: Checker
+      - name: Collect Turborepo Changes
+        id: changes
+        uses: 94726/action-turborepo-changed@v1
+        with:
+          from: HEAD^1 # Changes since previous commit (this is the default)
+
+      - name: Dump context
+        env:
+          STEP_CONTEXT: ${{ toJson(steps.changes) }}
+        run: |
+          echo "$STEP_CONTEXT"
+
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger 1
+        run: |
+          echo "Hello this is the preflight task"
+      - name: Trigger 2
+        run: |
+          echo "Hello this is the preflight task"
+      - name: Trigger 3
         run: |
           echo "Hello this is the preflight task"
