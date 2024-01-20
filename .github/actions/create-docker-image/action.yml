@@ -145,9 +145,9 @@ runs:
           common=.local/base-context
           app=.local/${{ inputs.workspace_name }}
         secrets: |
-          "gitlab_token=${{ input.CI_JOB_TOKEN }}"
-          "github_token=${{ input.GITHUB_TOKEN }}"
-          "turbo_token=${{ input.TURBO_TOKEN }}"
+          "gitlab_token=${{ inputs.CI_JOB_TOKEN }}"
+          "github_token=${{ inputs.GITHUB_TOKEN }}"
+          "turbo_token=${{ inputs.TURBO_TOKEN }}"
         tags: |
           registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
         load: true
