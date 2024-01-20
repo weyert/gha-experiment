@@ -57,11 +57,16 @@ jobs:
 
       - name: Generate developer certificates
         run: |
+          echo "::group::Prepare"
           wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
           mv mkcert-v1.4.3-linux-amd64 ./tools/mkcert
           chmod +x ./tools/mkcert
           ./tools/mkcert --version
+          echo "::endgroup::"
+          echo "::group::Create certificates"
           CAROOT=./ssl ./tools/mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost-cert.pem "*.example.com" example.test localhost 127.0.0.1 ::1
+          CAROOT=./ssl ./tools/mkcert -install
+          echo "::endgroup::"
 
       - name: Run Tests
         env:
