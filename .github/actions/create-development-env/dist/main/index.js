@@ -37452,9 +37452,8 @@ async function run() {
       console.log(`postScriptLocation:`, postScriptLocation);
       await exec.exec("../../post.sh", [], {
         cwd: __dirname,
-        pwd: core.getInput("cwd"),
         env: {
-          DATABASE_SCRIPT: utils.parseFlags(core.getInput("database-script")),
+          PWD: core.getInput("cwd"),
         },
       });
       core.endGroup();
