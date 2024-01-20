@@ -23,6 +23,53 @@ on:
         type: string
 
 jobs:
+  docker:
+    name: Build project
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: "actions/checkout@v4"
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - uses: pnpm/action-setup@v2.4.0
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+
+      #
+      - name: Collect build information
+        id: buildinfo
+        uses: ./.github/actions/prepare
+
+      - name: Build application
+        shell: bash
+        run: |
+          pnpm exec turbo run build --filter=${{ inputs.workspace_name }}
+
   build:
     name: Building docker image
     timeout-minutes: 30
