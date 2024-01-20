@@ -38,10 +38,12 @@ jobs:
           from: HEAD^1
           to: HEAD
 
-      - name: Dump github event
+      - name: Dump GitHub context
         shell: bash
+        env:
+          TURBO_CONTEXT: ${{ toJson(steps.changes) }}
         run: |
-          echo ""
+          echo "$TURBO_CONTEXT"
   #
   webhooks-service:
     needs: [prepare]
