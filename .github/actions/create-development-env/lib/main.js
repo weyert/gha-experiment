@@ -48,8 +48,10 @@ async function run() {
       const result = await promise;
       core.startGroup("Running post-script step");
       console.log(`dirname:`, __dirname);
+      const postScriptLocation = path.resolve(__dirname, "..", "..");
+      console.log(`postScriptLocation:`, postScriptLocation);
       await exec.exec("../../post.sh", [], {
-        cwd: __dirname,
+        cwd: postScriptLocation,
         env: {
           DATABASE_SCRIPT: utils.parseFlags(core.getInput("database-script")),
         },
