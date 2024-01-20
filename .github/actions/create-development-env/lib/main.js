@@ -62,28 +62,9 @@ async function run() {
       });
       core.endGroup();
     } catch (err) {
+      console.log(`err:`, err);
       core.setFailed(`compose up failed ${JSON.stringify(err)}`);
     }
-
-    // promise
-    //   .then(() => {
-    //     console.log("compose started");
-    //     core.startGroup("Running post-script step");
-    //     const endShellPromise = exec.exec("bash ./post.sh", [], {
-    //       cwd: __dirname,
-    //     });
-    //     endShellPromise
-    //       .then(() => {
-    //         console.log(`Succeeded`);
-    //         core.endGroup();
-    //       })
-    //       .catch(() => {
-    //         console.log(`Failed`);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     core.setFailed(`compose up failed ${JSON.stringify(err)}`);
-    //   });
   } catch (error) {
     core.setFailed(error.message);
   }
