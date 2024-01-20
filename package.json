@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo run test --cache-dir=.turbo-cache",
+    "dev": "turbo run dev --cache-dir=.turbo-cache",
+    "test": "turbo run build --cache-dir=.turbo-cache --filter=!system-tests"
   },
   "keywords": [],
   "author": "",

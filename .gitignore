@@ -13,6 +13,7 @@ lerna-debug.log*
 .DS_Store
 .history/
 .local/
+.turbo-cache/
 .turbo/
 !.turbo/config.json
 
