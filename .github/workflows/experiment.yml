@@ -61,13 +61,9 @@ jobs:
         uses: ./.github/actions/create-development-env
         with:
           compose-file: "./scripts/localstack/docker-compose.yml"
+          database_file: ./scripts/localstack/backups/cloud-sql-backup.sql
           cwd: "${{ github.workspace }}"
           down-flags: "--volumes"
-
-      - name: docker
-        run: |
-          docker ps
-          docker compose -f ./scripts/localstack/docker-compose.yml exec postgres sh /tapico/init-backup-db.sh
 
       # - name: Generate developer certificates
       #   run: |
