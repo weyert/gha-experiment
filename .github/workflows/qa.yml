@@ -51,8 +51,17 @@ jobs:
 
       - name: Generate developer certificates
         run: |
-          pnpm add -g mkcert
-          CAROOT=./ssl pnpm exec mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost-cert.pem "*.example.com" example.test localhost 127.0.0.1 ::1
+          pnpm dlx mkcert create-ca --key=./ssl/rootCA-key.pem --cert ./ssl/rootCA.pem
+          pnpm dlx mkcert create-cert \
+             --ca-key=./ssl/rootCA-key.pem \
+             --ca-cert=./ssl/rootCA.pem \
+             --key=./ssl/localhost-key.pem \
+             --cert=./ssl/localhost.pem \
+             --domain 127.0.0.1 \
+             --domain :1 \
+             --domain localhost \
+             --domain example.com \
+             --domain "*.example.com"
 
       - name: Run Tests
         env:
