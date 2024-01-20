@@ -11,6 +11,9 @@ defaults:
   run:
     shell: sh
 
+env:
+  NODE_EXTRA_CA_CERTS: ".ssl/rootCA.pem"
+
 jobs:
   test:
     name: System Tests
@@ -48,6 +51,11 @@ jobs:
         run: |
           pnpm install
           pnpm dlx playwright install --with-deps
+
+      - name: Generate developer certificates
+        run: |
+          pnpm add -g mkcert
+          CAROOT=./ssl pnpm exec mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost-cert.pem "*.example.com" example.test localhost 127.0.0.1 ::1
 
       - name: Run Tests
         run: |
