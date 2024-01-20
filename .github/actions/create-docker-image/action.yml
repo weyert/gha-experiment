@@ -128,14 +128,7 @@ runs:
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: name/app
-
-    - name: Dump Docker context
-      shell: sh
-      env:
-        DOCKER_CONTEXT: ${{ toJson(steps.meta.outputs) }}
-      run: |
-        echo "$DOCKER_CONTEXT"
+        images: tapico/${{ inputs.workspace_name }}
 
     #
     - id: build_docker_image
@@ -146,7 +139,6 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: .local/base-context
-        # registry: registry.gitlab.com
         build-args: |
           PORT=${{ inputs.port }}
           WORKSPACE_NAME=${{ inputs.workspace_name }}
