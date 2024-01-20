@@ -8,7 +8,7 @@ inputs:
       Port of the service in Docker image
   registry:
     required: false
-    default: registry.gitlab.com/tapico/sandboxes/monorepo
+    default: registry.gitlab.com/tapico/sandboxes/tapico-monorepo
     description: |-
       The docker registry to push the generated docker image
   workspace_name:
@@ -154,7 +154,7 @@ runs:
           "github_token=${{ inputs.GITHUB_TOKEN }}"
           "turbo_token=${{ inputs.TURBO_TOKEN }}"
         tags: |
-          registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
+          ${{ inputs.registry }}/${{ inputs.workspace_name }}_experiment:latest
         load: true
 
     # Expose the image_id, image tag so it can be leverage by jobs and/or actions
@@ -166,13 +166,3 @@ runs:
         echo "image_digest=${{ steps.build_docker_image.outputs.digest }}" >> $GITHUB_OUTPUT
         echo "image_tag=${{ fromJson(steps.build_docker_image.outputs.metadata)['image.name'] }}" >> $GITHUB_OUTPUT
         echo "image_name=${{ fromJson(steps.build_docker_image.outputs.metadata)['image.name'] }}" >> $GITHUB_OUTPUT
-
-    - id: publish_docker_image
-      name: Publish docker image
-      uses: docker/build-push-action@v5
-      with:
-        file: ${{ inputs.workspace_directory }}/${{ inputs.dockerfile }}
-        context: .local/base-context
-        tags: |
-          registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
-        push: true
