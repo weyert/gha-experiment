@@ -1,4 +1,4 @@
-name: Quality Assurance
+name: Demo
 
 on:
   push:
@@ -11,7 +11,7 @@ defaults:
 
 jobs:
   test:
-    name: System Tests
+    name: Test
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:

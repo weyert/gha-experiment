@@ -54,8 +54,8 @@ runs:
     - name: Login to Gitlab Container Registry
       uses: docker/login-action@v3
       with:
-        registry: ${{ vars.GITLAB_REGISTRY }}
-        username: ${{ secrets.GITLAB_USERNAME }}
+        registry: registry.gitlab.com
+        username: weyert-tapico
         password: ${{ secrets.GITLAB_PASSWORD }}
 
     #
@@ -117,13 +117,11 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         context: .local/base-context
-        registry: ${{ vars.GITLAB_REGISTRY }}
+        registry: registry.gitlab.com
         build-args: |
-          NODE_VERSION=${{ vars.NODE_VERSION }}
           PORT=${{ inputs.port }}
           WORKSPACE_NAME=${{ inputs.workspace_name }}
           WORKSPACE_DIRECTORY=${{ inputs.workspace_directory }}
-          TURBO_TEAM=${{ vars.TURBO_TEAM }}
           BUILD_NUMBER=${{ env.LAST_COMMIT_SHA }}
           BUILD_PIPELINE=${{ env.BUILD_PIPELINE }}
           BUILD_BRANCH=${{ env.BUILD_BRANCH }}
@@ -131,9 +129,9 @@ runs:
           common=.local/base-context
           app=.local/${{ inputs.workspace_name }}
         secrets: |
-          "gitlab_token=${{ vars.CI_JOB_TOKEN }}"
-          "github_token=${{ vars.GITHUB_TOKEN }}"
-          "turbo_token=${{ vars.GITHUB_TOKEN }}"
+          "gitlab_token=${{ secrets.CI_JOB_TOKEN }}"
+          "github_token=${{ secrets.GITHUB_TOKEN }}"
+          "turbo_token=${{ secrets.GITHUB_TOKEN }}"
         tags: |
           ${{ vars.GITLAB_REGISTRY }}/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
         load: true
