@@ -67,6 +67,7 @@ jobs:
       - name: docker
         run: |
           docker ps
+          docker compose -f ./scripts/localstack/docker-compose.yml exec postgres sh /tapico/init-backup-db.sh
 
       # - name: Generate developer certificates
       #   run: |
