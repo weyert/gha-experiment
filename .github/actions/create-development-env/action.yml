@@ -6,6 +6,10 @@ inputs:
     description: "relative path to compose file(s)"
     required: false
     default: "./docker-compose.yml"
+  cwd: # id of input
+    description: "Current working directory"
+    required: false
+    default: ""
   compose-flags: # id of input
     description: "additional options to pass to `docker-compose` command"
     required: false
@@ -24,8 +28,8 @@ inputs:
 
 runs:
   using: "node16"
-  main: "dist/main.js"
-  post: "dist/post.js"
+  main: "dist/main/index.js"
+  post: "dist/post/index.js"
 
 branding:
   icon: anchor
