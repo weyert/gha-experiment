@@ -37,5 +37,5 @@ jobs:
 
       - name: HelloWorld
         env:
-          METADATA: ${{ toJSON(steps.meta) }}
+          METADATA: ${{ toJSON(steps.meta.outputs) }}
         run: echo "Hello World=${METADATA}"
