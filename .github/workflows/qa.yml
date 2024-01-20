@@ -53,7 +53,6 @@ jobs:
       - name: Install dependencies
         run: |
           pnpm install
-          pnpm dlx playwright install --with-deps
 
       - name: Generate developer certificates
         run: |
@@ -73,6 +72,10 @@ jobs:
           ls -la
           tree
           echo "::endgroup::"
+
+      - name: Install Playwright dependencies
+        run: |
+          pnpm dlx playwright install --with-deps
 
       - name: Run Tests
         env:
