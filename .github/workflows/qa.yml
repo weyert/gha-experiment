@@ -58,6 +58,7 @@ jobs:
       - name: Generate developer certificates
         run: |
           echo "::group::Prepare"
+          apt install libnss3-tools
           wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
           mv mkcert-v1.4.3-linux-amd64 ./tools/mkcert
           chmod +x ./tools/mkcert
