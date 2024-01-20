@@ -1,0 +1,18 @@
+name: Payment Service
+
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/release.yml
+    with:
+      workspace_name: payment-service
+      workspace_directory: services/payment-service
+      service_port: 30002
+      dockerfile: Dockerfile
+    secrets: inherit
