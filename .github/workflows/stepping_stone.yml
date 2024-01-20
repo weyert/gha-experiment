@@ -54,6 +54,18 @@ jobs:
           TURBO_CONTEXT: ${{ toJson(steps.changes) }}
         run: |
           echo "$TURBO_CONTEXT"
+
+  context:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+
+    steps:
+      - name: Dump Job context
+        shell: bash
+        env:
+          JOB_CONTEXT: ${{ toJson(needs.prepare) }}
+        run: |
+          echo "$JOB_CONTEXT"
   #
   webhooks-service:
     needs: [prepare]
