@@ -60,8 +60,7 @@ jobs:
       - name: Create development environment
         uses: ./.github/actions/create-development-env
         with:
-          compose-file: "./scripts/localstack/docker-compose.yml"
-          database_file: ./scripts/localstack/backups/cloud-sql-backup.sql
+          compose-file: "${{ github.workspace }}/scripts/localstack/docker-compose.yml"
           cwd: "${{ github.workspace }}"
           down-flags: "--volumes"
 

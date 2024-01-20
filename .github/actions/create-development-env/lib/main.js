@@ -36,8 +36,8 @@ async function run() {
     console.log(pwd);
     console.log(__dirname);
     const scriptPath = path.resolve(__dirname);
-    console.log(pwd, scriptPath, relativePath);
     const relativePath = path.relative(pwd, scriptPath);
+    console.log(pwd, scriptPath, relativePath);
     console.log(pwd, postScriptLocation, relativePath);
     const loc = path.resolve(relativePath, "..", "..");
     console.log(loc);
