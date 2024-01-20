@@ -61,9 +61,20 @@ jobs:
           pnpm install
 
       #
-      - name: Collect build information
-        id: buildinfo
-        uses: ./.github/actions/prepare
+      - name: Resolve build information for building docker image
+        id: turbo-info
+        uses: ./.github/actions/turborepo-changes
+        with:
+          workspace: ${{ inputs.workspace_directory }}
+          pipeline: build
+          from: main
+
+      - name: Dump turbo context
+        shell: bash
+        env:
+          ACTION_CONTEXT: ${{ toJson(steps.turbo-info) }}
+        run: |
+          echo "$ACTION_CONTEXT"
 
       - name: Build application
         shell: bash
