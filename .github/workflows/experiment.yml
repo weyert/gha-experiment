@@ -44,7 +44,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
+
+      - name: Create development environment
+        uses: ./.github/actions/create-development-env
+        with:
+          compose-file: "./scripts/localstack/docker-compose.yml"
+          cwd: "${{ github.workspace }}"
+          down-flags: "--volumes"
 
       - name: Generate developer certificates
         run: |
@@ -64,10 +71,3 @@ jobs:
           ls -la ssl
           sudo update-ca-certificates --fresh
           echo "::endgroup::"
-
-      - name: Create development environment
-        uses: ./.github/actions/create-development-env
-        with:
-          compose-file: "./scripts/localstack/docker-compose.yml"
-          cwd: "${{ github.workspace }}"
-          down-flags: "--volumes"
