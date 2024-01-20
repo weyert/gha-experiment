@@ -131,6 +131,7 @@ runs:
         images: name/app
 
     - name: Dump Docker context
+      shell: sh
       env:
         DOCKER_CONTEXT: ${{ toJson(steps.meta.outputs) }}
       run: |
