@@ -37449,7 +37449,6 @@ async function run() {
       const result = await promise;
       core.startGroup("Running post-script step");
       const postScriptLocation = path.resolve(__dirname, "..", "..");
-      console.log(`postScriptLocation:`, postScriptLocation);
       await exec.exec("../../post.sh", [], {
         cwd: __dirname,
         env: {
