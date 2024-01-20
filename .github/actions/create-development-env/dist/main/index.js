@@ -37432,10 +37432,15 @@ async function run() {
       commandOptions: utils.parseFlags(core.getInput("up-flags")),
     };
 
+    const pwd = core.getInput("cwd");
+    const postScriptLocation = path.resolve(__dirname);
+    const relativePath = path.relative(pwd, postScriptLocation);
+    console.log(pwd, postScriptLocation, relativePath);
+
     //
     core.startGroup("Running pre-script step");
-    await exec.exec("../../pre.sh", [], {
-      cwd: __dirname,
+    await exec.exec(`${relativePath}/pre.sh`, [], {
+      cwd: pwd,
     });
     core.endGroup();
 
@@ -37449,18 +37454,18 @@ async function run() {
       const result = await promise;
       core.startGroup("Running post-script step");
       const postScriptLocation = path.resolve(__dirname, "..", "..");
-      await exec.exec("../../post.sh", [], {
-        cwd: __dirname,
+      await exec.exec(`${relativePath}/post.sh`, [], {
+        cwd: pwd,
         env: {
-          PWD: core.getInput("cwd"),
+          PWD: pwd,
         },
       });
       core.endGroup();
 
       // All done!
       core.startGroup("Running entrypoint-script step");
-      await exec.exec("../../entrypoint.sh", [], {
-        cwd: __dirname,
+      await exec.exec(`${relativePath}/entrypoint.sh`, [], {
+        cwd: pwd,
       });
       core.endGroup();
     } catch (err) {
