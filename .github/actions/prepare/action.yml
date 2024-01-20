@@ -18,6 +18,12 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: |
+        echo "$GITHUB_CONTEXT"
+
     # Determine the build information for the docker image
     - name: Retrieve build information from Pull Request
       if: ${{ github.event_name == 'pull_request' }}

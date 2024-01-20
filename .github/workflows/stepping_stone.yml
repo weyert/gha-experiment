@@ -19,8 +19,14 @@ jobs:
       package_names: ${{ steps.changes.outputs.package_names }}
 
     steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -29,7 +35,12 @@ jobs:
         uses: ./.github/actions/turborepo-changes
         with:
           from: HEAD^1
+          to: HEAD
 
+      - name: Dump github event
+        shell: bash
+        run: |
+          echo ""
   #
   webhooks-service:
     needs: [prepare]

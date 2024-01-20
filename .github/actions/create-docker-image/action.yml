@@ -115,6 +115,7 @@ runs:
       name: Prepare docker context
       shell: bash
       run: |
+        echo "::group::Create docker context"
         mkdir -p .local
         mkdir -p .local/base-context
         mkdir -p .local/base-context/scripts
@@ -133,6 +134,7 @@ runs:
         cd .local/${{ inputs.workspace_name }}
         find . -name node_modules -prune -execdir rm -rf {} +
         cd $LAST_PWD
+        echo "::endgroup::"
 
     # Attempts to inject the .turbo-cache directory into the docker image to
     # give turbo executable in the docker image access to the local cache together
