@@ -21,6 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Dump GitHub context
+        shell: bash
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
