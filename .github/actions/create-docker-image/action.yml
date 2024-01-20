@@ -8,7 +8,7 @@ inputs:
       Port of the service in Docker image
   registry:
     required: false
-    default: ${{ vars.GITLAB_REGISTRY }}/tapico/sandboxes/monorepo
+    default: registry.gitlab.com/tapico/sandboxes/monorepo
     description: |-
       The docker registry to push the generated docker image
   workspace_name:
@@ -133,7 +133,7 @@ runs:
           "github_token=${{ secrets.GITHUB_TOKEN }}"
           "turbo_token=${{ secrets.GITHUB_TOKEN }}"
         tags: |
-          ${{ vars.GITLAB_REGISTRY }}/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
+          registry.gitlab.com/tapico/sandboxes/monorepo/${{ inputs.workspace_name }}_experiment:latest
         load: true
 
     # Expose the image_id, image tag so it can be leverage by jobs and/or actions
