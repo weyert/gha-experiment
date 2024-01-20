@@ -14,6 +14,7 @@ jobs:
     permissions:
       contents: read
       security-events: write
+      actions: read
 
     steps:
       - name: Checkout
@@ -32,6 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      security-events: write
+      actions: read
 
     steps:
       - name: Checkout
