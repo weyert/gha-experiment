@@ -2,6 +2,7 @@ name: Next App
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 defaults:
   run:
