@@ -115,6 +115,9 @@ export default defineConfig({
   webServer: {
     command: "pnpm -w exec turbo run dev",
     port: 3000,
+    timeout: 120000,
+    stdout: "pipe",
+    ignoreHTTPSErrors: false,
     reuseExistingServer: false,
   },
 });
