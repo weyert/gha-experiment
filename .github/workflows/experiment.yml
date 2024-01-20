@@ -46,6 +46,17 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
 
+      - name: Fetch the database backup
+        run: |
+          mkdir -p ./scripts/localstack/backups/
+          touch ./scripts/localstack/backups/cloud-sql-backup.sql
+          cat <<EOF > ./scripts/localstack/backups/cloud-sql-backup.sql
+          CREATE TABLE new(id INT,name VARCHAR);
+          INSERT INTO new(id,name)values(1,"Travis");
+          EOF
+          cat ./scripts/localstack/backups/cloud-sql-backup.sql
+          ls -la ./scripts/localstack/backups
+
       - name: Create development environment
         uses: ./.github/actions/create-development-env
         with:
@@ -53,21 +64,25 @@ jobs:
           cwd: "${{ github.workspace }}"
           down-flags: "--volumes"
 
-      - name: Generate developer certificates
+      - name: docker
         run: |
-          echo "::group::Prepare"
-          sudo apt update
-          sudo apt install -y libnss3-tools
-          wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
-          mv mkcert-v1.4.3-linux-amd64 ./tools/mkcert
-          chmod +x ./tools/mkcert
-          ./tools/mkcert --version
-          echo "::endgroup::"
-          echo "::group::Create certificates"
-          CAROOT=./ssl ./tools/mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost.pem "*.example.com" example.test localhost 127.0.0.1 ::1
-          CAROOT=./ssl ./tools/mkcert -install
-          echo "::endgroup::"
-          echo "::group::Generated certificates"
-          ls -la ssl
-          sudo update-ca-certificates --fresh
-          echo "::endgroup::"
+          docker ps
+
+      # - name: Generate developer certificates
+      #   run: |
+      #     echo "::group::Prepare"
+      #     sudo apt update
+      #     sudo apt install -y libnss3-tools
+      #     wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64
+      #     mv mkcert-v1.4.3-linux-amd64 ./tools/mkcert
+      #     chmod +x ./tools/mkcert
+      #     ./tools/mkcert --version
+      #     echo "::endgroup::"
+      #     echo "::group::Create certificates"
+      #     CAROOT=./ssl ./tools/mkcert -key-file ./ssl/localhost-key.pem -cert-file ./ssl/localhost.pem "*.example.com" example.test localhost 127.0.0.1 ::1
+      #     CAROOT=./ssl ./tools/mkcert -install
+      #     echo "::endgroup::"
+      #     echo "::group::Generated certificates"
+      #     ls -la ssl
+      #     sudo update-ca-certificates --fresh
+      #     echo "::endgroup::"
