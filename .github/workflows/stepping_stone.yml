@@ -46,8 +46,7 @@ jobs:
         id: changes
         uses: ./.github/actions/turborepo-changes
         with:
-          from: HEAD^1
-          to: HEAD
+          from: origin/main
 
       - name: Dump Turbo changes context
         shell: bash
