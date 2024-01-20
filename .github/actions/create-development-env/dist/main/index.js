@@ -37443,7 +37443,7 @@ async function run() {
     console.log(`loc=`, loc);
 
     //
-    core.startGroup("Running pre-script step");
+    core.startGroup("Running pre-script");
     await exec.exec(`${loc}/pre.sh`, [], {
       cwd: pwd,
     });
@@ -37456,8 +37456,10 @@ async function run() {
         : composeV2.upAll(options);
 
     try {
+      core.startGroup("Starting the docker compose definition");
       const result = await promise;
-      core.startGroup("Running post-script step");
+      core.endGroup();
+      core.startGroup("Running post-script");
       await exec.exec(`${loc}/post.sh`, [], {
         cwd: pwd,
       });
