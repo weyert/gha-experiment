@@ -67,13 +67,6 @@ jobs:
       - name: Create PubSub Topics
         run: |
           echo "Creating topics for Cloud PubSub emulator..."
-          node ${SCRIPT_PATH}/create-emulator-topics.mjs
-          echo "Creating topic subscriptions for Cloud PubSub emulator..."
-          node ${SCRIPT_PATH}/create-emulator-subscriptions.mjs
-
-      - name: Create PubSub Topics
-        run: |
-          echo "Creating topics for Cloud PubSub emulator..."
           node ./scripts/create-emulator-topics.mjs
           echo "Creating topic subscriptions for Cloud PubSub emulator..."
           node ./scripts/create-emulator-subscriptions.mjs
