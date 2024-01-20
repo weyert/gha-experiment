@@ -65,9 +65,10 @@ jobs:
         id: turbo-info
         uses: ./.github/actions/turborepo-changes
         with:
-          workspace: ${{ inputs.workspace_directory }}
+          # workspace: ${{ inputs.workspace_name }}
           pipeline: build
-          from: main
+          from: origin/main
+          to: HEAD
 
       - name: Dump turbo context
         shell: bash
