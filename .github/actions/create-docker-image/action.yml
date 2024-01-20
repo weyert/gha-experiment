@@ -24,6 +24,10 @@ inputs:
     required: true
     description: |-
       Location of project workspace
+  postfix:
+    required: false
+    description: |-
+      The postfix to add the name of the docker image tag
   dockerfile:
     required: false
     default: Dockerfile
@@ -163,7 +167,7 @@ runs:
           "github_token=${{ inputs.GITHUB_TOKEN }}"
           "turbo_token=${{ inputs.TURBO_TOKEN }}"
         tags: |
-          ${{ inputs.registry }}/${{ inputs.workspace_name }}_experiment:latest
+          ${{ inputs.registry }}/${{ inputs.workspace_name }}_${{ inputs.docker_postfix }}_experiment:latest
         load: true
 
     # Expose the image_id, image tag so it can be leverage by jobs and/or actions

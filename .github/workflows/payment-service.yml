@@ -9,8 +9,8 @@ defaults:
     shell: sh
 
 jobs:
-  deploy:
-    uses: ./.github/workflows/release.yml
+  build:
+    uses: ./.github/workflows/build.yml
     with:
       workspace_name: payment-service
       workspace_directory: services/payment-service
