@@ -33,14 +33,14 @@ async function run() {
     };
 
     const pwd = core.getInput("cwd");
-    console.log(pwd);
-    console.log(__dirname);
+    console.log(`pwd=`, pwd);
+    console.log(`__dirname=`, __dirname);
     const scriptPath = path.resolve(__dirname);
     const relativePath = path.relative(pwd, scriptPath);
-    console.log(pwd, scriptPath, relativePath);
-    console.log(pwd, postScriptLocation, relativePath);
+    console.log(`scriptPath=`, scriptPath);
+    console.log(`relativePath=`, relativePath);
     const loc = path.resolve(relativePath, "..", "..");
-    console.log(loc);
+    console.log(`loc=`, loc);
 
     //
     core.startGroup("Running pre-script step");
