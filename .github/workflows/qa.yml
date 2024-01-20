@@ -51,7 +51,8 @@ jobs:
 
       - name: Generate developer certificates
         run: |
-          pnpm dlx mkcert create-ca --key=./ssl/rootCA-key.pem --cert ./ssl/rootCA.pem
+          pnpm dlx mkcert create-ca --key=./ssl/rootCA-key.pem --cert=./ssl/rootCA.pem
+          ls -la ./ssl
           pnpm dlx mkcert create-cert \
              --ca-key=./ssl/rootCA-key.pem \
              --ca-cert=./ssl/rootCA.pem \
