@@ -33,9 +33,14 @@ async function run() {
     };
 
     const pwd = core.getInput("cwd");
-    const postScriptLocation = path.resolve(__dirname);
-    const relativePath = path.relative(pwd, postScriptLocation);
+    console.log(pwd);
+    console.log(__dirname);
+    const scriptPath = path.resolve(__dirname);
+    console.log(pwd, scriptPath, relativePath);
+    const relativePath = path.relative(pwd, scriptPath);
     console.log(pwd, postScriptLocation, relativePath);
+    const loc = path.resolve(relativePath, "..", "..");
+    console.log(loc);
 
     //
     core.startGroup("Running pre-script step");
@@ -53,7 +58,6 @@ async function run() {
     try {
       const result = await promise;
       core.startGroup("Running post-script step");
-      const postScriptLocation = path.resolve(__dirname, "..", "..");
       await exec.exec(`${relativePath}/post.sh`, [], {
         cwd: pwd,
         env: {
