@@ -8,7 +8,6 @@ lerna-debug.log*
 .pnpm-debug.log*
 
 #
-.npmrc
 .pnpm-store/
 .DS_Store
 .history/
