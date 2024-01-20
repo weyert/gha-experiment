@@ -31,6 +31,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Collect targeted branch information
+        id: prepare
+        uses: ./.github/actions/prepare
+
+      - name: Dump git change target context
+        shell: bash
+        env:
+          TURBO_CONTEXT: ${{ toJson(steps.prepare) }}
+        run: |
+          echo "$TURBO_CONTEXT"
+
       - name: Collect Turborepo Changes
         id: changes
         uses: ./.github/actions/turborepo-changes
@@ -38,7 +49,7 @@ jobs:
           from: HEAD^1
           to: HEAD
 
-      - name: Dump GitHub context
+      - name: Dump Turbo changes context
         shell: bash
         env:
           TURBO_CONTEXT: ${{ toJson(steps.changes) }}
