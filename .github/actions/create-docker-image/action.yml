@@ -7,25 +7,31 @@ inputs:
     description: |-
       Port of the service in Docker image
   image_tag:
+    type: string
     required: true
     default: tapico/sandboxes/tapico-monorepo
     description: |-
       The docker registry to push the generated docker image
   registry:
+    type: string
     required: true
     default: registry.gitlab.com
     description: |-
       The docker registry to push the generated docker image
   workspace_name:
+    type: string
     required: true
     description: |-
       Name of project workspace
   workspace_directory:
+    type: string
     required: true
     description: |-
       Location of project workspace
   postfix:
+    type: string
     required: false
+    default: "devel"
     description: |-
       The postfix to add the name of the docker image tag
   dockerfile:
