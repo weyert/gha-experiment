@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "ncc build lib/main.js -o dist/main && ncc build lib/post.js -o dist/out",
+    "build": "ncc build lib/main.js -o dist/main && ncc build lib/post.js -o dist/post",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,json}\"",
