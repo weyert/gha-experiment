@@ -25,7 +25,7 @@ jobs:
 
       - name: Collect Turborepo Changes
         id: changes
-        uses: 94726/action-turborepo-changed@v1
+        uses: ./.github/actions/turborepo-changes
         with:
           from: HEAD^1 # Changes since previous commit (this is the default)
 
