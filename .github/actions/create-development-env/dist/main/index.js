@@ -36183,6 +36183,9 @@ try {
     config: composeFiles,
     log: true,
     cwd: core.getInput("cwd"),
+    env: {
+      PWD: core.getInput("cwd"),
+    },
     composeOptions: utils.parseFlags(core.getInput("compose-flags")),
     commandOptions: utils.parseFlags(core.getInput("up-flags")),
   };
