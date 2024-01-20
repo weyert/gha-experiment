@@ -117,7 +117,7 @@ export default defineConfig({
     port: 3000,
     timeout: 120000,
     stdout: "pipe",
-    ignoreHTTPSErrors: false,
+    ignoreHTTPSErrors: true,
     reuseExistingServer: false,
   },
 });
