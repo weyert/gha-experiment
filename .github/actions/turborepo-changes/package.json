@@ -1,0 +1,30 @@
+{
+  "name": "turborepo-changes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/main.js",
+  "scripts": {
+    "build": "tsc && ncc build --source-map --license licenses.txt",
+    "format": "prettier --write '**/*.ts'",
+    "format-check": "prettier --check '**/*.ts'",
+    "lint": "eslint src/**/*.ts",
+    "all": "npm run build && npm run format && npm run lint"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@manypkg/get-packages": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.56.0",
+    "eslint-plugin-github": "^4.10.1",
+    "js-yaml": "^4.1.0",
+    "prettier": "3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

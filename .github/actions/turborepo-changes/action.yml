@@ -1,0 +1,40 @@
+name: "Turborepo Changes"
+description: "Action to get a list of changed workspaces in a Turborepo"
+author: "Maik Kowol<https://github.com/94726>"
+branding:
+  icon: git-branch
+  color: purple
+inputs:
+  from:
+    required: false
+    description: "Start of the commit range (commit hash or branch)."
+    default: "HEAD^1"
+  to:
+    required: false
+    description: "End of the commit range (commit hash or branch). Defaults to the latest availabe commit in the current branch."
+  working-directory:
+    required: false
+    description: "Path to the root of the Turborepo."
+    default: "./"
+  workspace:
+    required: false
+    description: "Turborepo workspace filter. See https://turbo.build/repo/docs/core-concepts/monorepos/filtering"
+    default: ""
+  pipeline:
+    required: false
+    description: "Turborepo pipeline to use."
+    default: "build"
+  exclude-private-packages:
+    required: false
+    description: "Excludes workspaces with private: true"
+    default: ""
+
+outputs:
+  package_names:
+    description: "Array containing names of changed packages"
+  packages:
+    description: "Array containing {name: PACKAGE_NAME, path: RELATIVE_PACKAGE_PATH} for every changed package"
+
+runs:
+  using: "node16"
+  main: "dist/index.js"
