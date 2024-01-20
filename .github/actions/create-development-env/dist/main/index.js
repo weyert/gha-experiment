@@ -37444,7 +37444,7 @@ async function run() {
 
     //
     core.startGroup("Running pre-script step");
-    await exec.exec(`${relativePath}/pre.sh`, [], {
+    await exec.exec(`${loc}/pre.sh`, [], {
       cwd: pwd,
     });
     core.endGroup();
@@ -37458,17 +37458,14 @@ async function run() {
     try {
       const result = await promise;
       core.startGroup("Running post-script step");
-      await exec.exec(`${relativePath}/post.sh`, [], {
+      await exec.exec(`${loc}/post.sh`, [], {
         cwd: pwd,
-        env: {
-          PWD: pwd,
-        },
       });
       core.endGroup();
 
       // All done!
       core.startGroup("Running entrypoint-script step");
-      await exec.exec(`${relativePath}/entrypoint.sh`, [], {
+      await exec.exec(`${loc}/entrypoint.sh`, [], {
         cwd: pwd,
       });
       core.endGroup();
