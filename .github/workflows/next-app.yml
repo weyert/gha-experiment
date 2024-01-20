@@ -13,7 +13,7 @@ jobs:
     uses: ./.github/workflows/release.yml
     with:
       workspace_name: next-app
-      workspace_directory: services/next-app
+      workspace_directory: projects/next-app
       service_port: 3000
       dockerfile: Dockerfile
     secrets: inherit

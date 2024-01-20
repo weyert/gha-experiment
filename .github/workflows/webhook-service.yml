@@ -12,8 +12,8 @@ jobs:
   deploy:
     uses: ./.github/workflows/release.yml
     with:
-      workspace_name: webhooks-mock-service
-      workspace_directory: services/webhooks-mock-service
+      workspace_name: webhooks-service
+      workspace_directory: services/webhooks-service
       service_port: 30001
       dockerfile: Dockerfile
     secrets: inherit
