@@ -6,6 +6,10 @@ inputs:
     description: "relative path to compose file(s)"
     required: false
     default: "./docker-compose.yml"
+  database-script: # id of input
+    description: "relative path to compose file(s)"
+    required: false
+    default: "./docker-compose.yml"
   cwd: # id of input
     description: "Current working directory"
     required: false
