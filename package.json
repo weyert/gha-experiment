@@ -12,15 +12,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "execa": "^8.0.1"
+  },
   "devDependencies": {
-    "@types/node": "^20.11.5",
-    "turbo": "^1.11.3",
-    "@turbo/gen": "1.11.3",
-    "typescript": "^5.3.3",
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^18.4.4",
-    "@manypkg/cli": "^0.21.2"
+    "@manypkg/cli": "^0.21.2",
+    "@turbo/gen": "1.11.3",
+    "@types/node": "^20.11.5",
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3"
   },
   "pnpm": {
     "supportedArchitectures": {
