@@ -126,7 +126,6 @@ async function mainModule() {
         }
         console.log(`::endgroup::`);
       } catch (error) {
-        console.log(`::endgroup::`);
         if (error.code === "ENOENT") {
           console.error(
             `Failed to find the job for creating PubSub topics 'init.ts'\n`
@@ -138,6 +137,7 @@ async function mainModule() {
             console.error(`Error:`, error.message);
           }
         }
+        console.log(`::endgroup::`);
       }
     }
   } catch (err) {

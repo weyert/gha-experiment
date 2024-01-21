@@ -163,7 +163,6 @@ async function runJobs(jobInfo) {
     return;
   }
 
-  console.log(`\n\nRunning migration job for '${serviceName}`);
   console.log(`::group::Running schema migration job for '${serviceName}`);
   await runMigration({
     ...jobInfo,
