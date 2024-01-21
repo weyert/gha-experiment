@@ -164,15 +164,19 @@ async function runJobs(jobInfo) {
   }
 
   console.log(`\n\nRunning migration job for '${serviceName}`);
+  console.log(`::group::Running schema migration job for '${serviceName}`);
   await runMigration({
     ...jobInfo,
     migrationKind: "schema",
   });
+  console.log(`::endgroup::`);
 
+  console.log(`::group::Running data migration job for '${serviceName}`);
   await runMigration({
     ...jobInfo,
     migrationKind: "data",
   });
+  console.log(`::endgroup::`);
 }
 
 /**

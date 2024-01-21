@@ -54,6 +54,9 @@ async function mainModule() {
         // Execute command for all valid backend services
         const serviceFullPath = path.resolve(monorepoDirectory, directory);
         console.log(
+          `::group::Running initialisation job for service '${serviceName}'`
+        );
+        console.log(
           `Running the intialise script for service ${serviceName} at ${serviceFullPath}`
         );
 
@@ -65,6 +68,7 @@ async function mainModule() {
           console.error(
             `Failed to find the job for creating PubSub topics 'init.ts'`
           );
+          console.log(`::endgroup::`);
           continue;
         }
 
@@ -120,7 +124,9 @@ async function mainModule() {
         if (process.env.LOG_LEVEL === "debug") {
           console.log(`shellResult:`, shellResult);
         }
+        console.log(`::endgroup::`);
       } catch (error) {
+        console.log(`::endgroup::`);
         if (error.code === "ENOENT") {
           console.error(
             `Failed to find the job for creating PubSub topics 'init.ts'\n`
